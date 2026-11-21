@@ -56,7 +56,6 @@ fn main() {
     let to = ask_user_a_number("To:", Some(from), None);
 
     let num = rand::random_range(from..=to);
-    println!("{num}");
 
     println!("Guess the number between {from} and {to}");
 
