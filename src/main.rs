@@ -40,7 +40,7 @@ fn main() {
             }
         }
 
-        if input::ask_user_a_string("Do you want to play again? (y/n):").to_lowercase() != "y" {
+        if input::prompt_line("Do you want to play again? (y/n):").to_lowercase() != "y" {
             break;
         }
     }
