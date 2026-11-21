@@ -16,8 +16,10 @@ fn ask_user_a_number(question: &str, min: Option<i32>, max: Option<i32>) -> i32 
     let mut input_str = String::new();
     let mut output: i32;
 
-    if min.is_some() && max.is_some() && min.unwrap() >= max.unwrap() {
-        panic!("The minimum cannot be bigger than the maximum!");
+    if let (Some(low), Some(high)) = (min, max) {
+        if low > high {
+            panic!("The minimum value must be smaller than the maximum value.");
+        }
     }
 
     loop {
@@ -35,14 +37,18 @@ fn ask_user_a_number(question: &str, min: Option<i32>, max: Option<i32>) -> i32 
             }
         };
 
-        if min.is_some() && output < min.unwrap() {
-            println!("We need a number bigger than: {}", min.unwrap());
-            continue;
+        if let Some(low) = min  {
+            if output < low {
+                println!("We need a number bigger than or equal to: {low}");
+                continue;
+            }
         }
 
-        if max.is_some() && output > max.unwrap() {
-            println!("We need a number smaller than: {}", max.unwrap());
-            continue;
+        if let Some(high) = max {
+            if output > high {
+                println!("We need a number smaller than or equal to: {high}");
+                continue;
+            }
         }
 
         break;
@@ -59,10 +65,10 @@ fn main() {
 
     println!("Guess the number between {from} and {to}");
 
-    let mut _tries = 0;
+    let mut tries = 0;
 
     loop {
-        _tries += 1;
+        tries += 1;
 
         let guess = ask_user_a_number("Type your guess:", Some(from), Some(to));
 
@@ -71,7 +77,7 @@ fn main() {
         } else if guess > num {
             println!("Sorry, but you're looking for a smaller number than: {guess}");
         } else {
-            let try_str = if _tries > 1 {
+            let try_str = if tries > 1 {
                 "tries"
             } else {
                 "try"
@@ -79,7 +85,7 @@ fn main() {
 
             println!("Great job!");
             println!("You found the number. It was: {num}");
-            println!("And it only took you {_tries} {try_str}");
+            println!("And it only took you {tries} {try_str}");
 
             break;
         }
