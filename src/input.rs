@@ -1,5 +1,23 @@
 use std::io;
 
+/// Prompt the user to enter a string.
+///
+/// # Arguments
+/// * `question` - What to ask the user for.
+/// 
+/// # Returns
+/// The string entered by the user.
+pub fn ask_user_a_string(question: &str) -> String {
+    let mut input = String::new();
+
+    input.clear();
+
+    println!("\n{question}");
+    io::stdin().read_line(&mut input).expect("Failed to read the line");
+
+    return input.trim().into();
+}
+
 /// Prompt the user to enter a number with the possibility to add a minimum and a maximum value.
 /// 
 /// # Arguments
@@ -20,8 +38,7 @@ pub fn ask_user_a_number(question: &str, min: Option<i32>, max: Option<i32>) -> 
     loop {
         input.clear();
 
-        println!();
-        println!("{question}");
+        println!("\n{question}");
         io::stdin().read_line(&mut input).expect("Failed to read the line");
 
         match parse_in_range(&input, min, max) {
