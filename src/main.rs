@@ -1,6 +1,7 @@
 use std::io;
+use std::cmp::Ordering;
 
-/// Prompt the user to enter a number with the posibility to add a minimum and a maximum value.
+/// Prompt the user to enter a number with the possibility to add a minimum and a maximum value.
 /// 
 /// # Arguments
 /// * `question` - What to ask the user for.
@@ -72,22 +73,22 @@ fn main() {
 
         let guess = ask_user_a_number("Type your guess:", Some(from), Some(to));
 
-        if guess < num {
-            println!("Sorry, but you're looking for a bigger number than: {guess}");
-        } else if guess > num {
-            println!("Sorry, but you're looking for a smaller number than: {guess}");
-        } else {
-            let try_str = if tries > 1 {
-                "tries"
-            } else {
-                "try"
-            };
+        match guess.cmp(&num) {
+            Ordering::Less => println!("Sorry, but you're looking for a bigger number than: {guess}"),
+            Ordering::Greater => println!("Sorry, but you're looking for a smaller number than: {guess}"),
+            Ordering::Equal => {
+                let try_str = if tries > 1 {
+                    "tries"
+                } else {
+                    "try"
+                };
 
-            println!("Great job!");
-            println!("You found the number. It was: {num}");
-            println!("And it only took you {tries} {try_str}");
+                println!("Great job!");
+                println!("You found the number. It was: {num}");
+                println!("And it only took you {tries} {try_str}");
 
-            break;
+                break;
+            },
         }
     }
 }
