@@ -57,3 +57,48 @@ fn parse_in_range(input: &str, min: Option<i32>, max: Option<i32>) -> Result<i32
 
     Ok(n)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parses_a_valid_number() {
+        assert_eq!(parse_in_range("42\n", None, None), Ok(42));
+    }
+
+    #[test]
+    fn accepts_negative_numbers() {
+        assert_eq!(parse_in_range("-7", None, None), Ok(-7));
+    }
+
+    #[test]
+    fn rejects_non_numbers() {
+        assert!(parse_in_range("abc", None, None).is_err());
+        assert!(parse_in_range("", None, None).is_err());
+        assert!(parse_in_range("3.5", None, None).is_err());
+        assert!(parse_in_range("3,5", None, None).is_err());
+    }
+
+    #[test]
+    fn rejects_below_minimum() {
+        assert!(parse_in_range("5", Some(10), None).is_err());
+    }
+
+    #[test]
+    fn rejects_above_maximum() {
+        assert!(parse_in_range("15", None, Some(10)).is_err());
+    }
+
+    #[test]
+    fn accepts_at_boundaries() {
+        assert_eq!(parse_in_range("5", Some(5), Some(10)), Ok(5));
+        assert_eq!(parse_in_range("10", Some(5), Some(10)), Ok(10));
+    }
+
+    #[test]
+    #[should_panic(expected = "The minimum value must be smaller than the maximum value.")]
+    fn panics_if_minimum_is_greater_than_maximum() {
+        ask_user_a_number("Enter a number:", Some(10), Some(5));
+    }
+}
