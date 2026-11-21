@@ -1,3 +1,6 @@
+![GitHub License](https://img.shields.io/github/license/NamelessProj/Guess-Number-Rust?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/NamelessProj/Guess-Number-Rust?style=for-the-badge)
+
 #  Guess Number In Rust
 
 A small command-line number guessing game written in Rust.
